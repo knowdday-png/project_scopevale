@@ -1,3 +1,6 @@
+const QUOTES_API = "https://api.api-ninjas.com/v2/randomquotes";
+const API_KEY = "oqs36QGq77pG0gWpe7kPEQ==xt2briaYzow8qNKu";
+
 const theQuote = document.getElementById('theQuote');
 let lastQuote = "";
 const localQuotes = [
@@ -6,7 +9,7 @@ const localQuotes = [
     "Do what you can, with what you have, where you are. — Theodore Roosevelt",
     "The only limit to our realization of tomorrow is our doubts of today. — Franklin D. Roosevelt",
     "The best way to get started is to quit talking and begin doing. — Walt Disney",
-    "Your time is limited, so don’t waste it living someone else’s life. — Steve Jobs",
+    "Your time is limited, so don't waste it living someone else's life. — Steve Jobs",
     "If life were predictable it would cease to be life, and be without flavor. — Eleanor Roosevelt",
     "If you look at what you have in life, you'll always have more. — Oprah Winfrey",
     "Success is not final, failure is not fatal: It is the courage to continue that counts. — Winston Churchill",
@@ -23,28 +26,38 @@ function addQuoteToList(text) {
     theQuote.appendChild(li);
 }
 
-function fetchQuote() {
+async function fetchQuote() {
     clearList();
     addQuoteToList("Loading...");
 
     const TIMEOUT = 900;
+
+    // Timeout promise
     const timeoutPromise = new Promise((_, reject) => {
         setTimeout(() => reject(new Error("Request timed out")), TIMEOUT);
     });
 
-    const fetchPromise = fetch("https://api.quotable.io/random")
-        .then(res => {
-            if (!res.ok) throw new Error("Network response not ok");
-            return res.json();
-        });
+    // API-Ninjas fetch promise
+    const fetchPromise = fetch(QUOTES_API, {
+        headers: { "X-Api-Key": API_KEY }
+    })
+    .then(res => {
+        if (!res.ok) throw new Error("Network error");
+        return res.json();
+    });
 
+    // Race them
     Promise.race([fetchPromise, timeoutPromise])
         .then(data => {
-            lastQuote = `${data.content} — ${data.author}`;
+            const quote = data[0].quote;
+            const author = data[0].author;
+
+            lastQuote = `${quote} — ${author}`;
             clearList();
             addQuoteToList(lastQuote);
         })
         .catch(() => {
+            // FALLBACK: pick from local quotes
             const randomIndex = Math.floor(Math.random() * localQuotes.length);
             lastQuote = localQuotes[randomIndex];
             clearList();
