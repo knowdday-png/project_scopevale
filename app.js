@@ -95,3 +95,8 @@ function clearStorage() {
     clearList();
     addQuoteToList("All saved quotes have been cleared!");
 }
+
+// Run showFavQuotes when the page finishes loading
+window.onload = function() {
+    showFavQuotes();
+};
