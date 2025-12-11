@@ -1,0 +1,76 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.data-lang {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+    row-gap: 30px;
+}
+
+/* Style the ul like your old div */
+.d-textarea {
+    width: 26em;
+    height: 13em;
+    border: 2px solid black;
+    border-radius: 8px;
+    color: wheat;
+    text-align: center;
+    overflow-y: auto;
+    background-color: black;
+    font-family: verdana;
+    font-weight: bold;
+    padding: 3rem;
+    list-style-type: none; /* remove bullets */
+}
+
+/* Center each li text */
+.d-textarea li {
+    margin-bottom: 1em; /* spacing between quotes */
+    text-align: center;
+}
+
+/* Button container */
+.d-buttons {
+    display: flex;
+    width: 26em;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Buttons */
+button {
+    background-color: lightcoral;
+    color: white;
+    font-weight: bold;
+    padding: 5px 30px;
+    border-style: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.d-buttons :last-child {
+    background-color: red;
+}
+
+.d-buttons :nth-child(2) {
+    background-color: midnightblue;
+}
+
+.d-buttons :nth-child(3) {
+    background-color: lightseagreen;
+}
+
+.d-buttons :first-child {
+    background-color: gray;
+}
