@@ -27,7 +27,7 @@ function fetchQuote() {
     clearList();
     addQuoteToList("Loading...");
 
-    const TIMEOUT = 1500;
+    const TIMEOUT = 900;
     const timeoutPromise = new Promise((_, reject) => {
         setTimeout(() => reject(new Error("Request timed out")), TIMEOUT);
     });
