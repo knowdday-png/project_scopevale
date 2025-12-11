@@ -84,7 +84,7 @@ button:hover {
     }
 
     .d-buttons, .d-textarea {
-        /* width: 20em; */
+        width: 20em;
         justify-content: center;
         align-items: center;
     }
