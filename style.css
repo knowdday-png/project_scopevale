@@ -83,9 +83,9 @@ button:hover {
         background-color: lightblue;
     }
 
-    /* .d-buttons, .d-textarea {
+    .d-buttons, .d-textarea {
         width: 20em;
         justify-content: center;
         align-items: center;
-    } */
+    }
 }
