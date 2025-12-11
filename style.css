@@ -13,6 +13,7 @@ body {
     display: flex;
     flex-flow: column nowrap;
     justify-content: center;
+    align-items: center;
     row-gap: 30px;
 }
 
@@ -29,7 +30,6 @@ body {
     font-weight: bold;
     padding: 2rem 3rem;
     list-style-type: none; /* remove bullets */
-    text-align: center;
 }
 
 /* Center each li text */
@@ -78,12 +78,13 @@ button {
     body {
         background-color: lightblue;
     }
+
     .d-buttons, .d-textarea {
-        width: 22em;
-        display: flex;
+        width: 20em;
         justify-content: center;
         align-items: center;
     }
+
     .d-textarea {
         padding: 1rem;
     }
