@@ -35,7 +35,7 @@ body {
 
 /* Center each li text */
 .d-textarea li {
-    margin-bottom: 1em; /* spacing between quotes */
+    margin-bottom: 2.5em; /* spacing between quotes */
     text-align: center;
 }
 
@@ -88,5 +88,9 @@ button:hover {
         width: 20em;
         justify-content: center;
         align-items: center;
+    }
+
+    .d-textarea li {
+        margin-bottom: 1em; /* spacing between quotes */
     }
 }
