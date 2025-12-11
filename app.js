@@ -100,3 +100,12 @@ function clearStorage() {
 window.onload = function() {
     showFavQuotes();
 };
+
+@media only screen and (max-width: 768px) {
+    body {
+        background-color: lightblue;
+    }
+    .data-lang {
+        padding: 0 10px;
+    }
+}
