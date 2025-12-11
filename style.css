@@ -80,6 +80,6 @@ button {
         background-color: lightblue;
     }
     .data-lang {
-        padding: 0 10px;
+        width: 85vw;
     }
 }
