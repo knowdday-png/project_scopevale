@@ -79,7 +79,7 @@ button {
         background-color: lightblue;
     }
     .d-buttons, .d-textarea {
-        width: 80%;
+        width: 22em;
         display: flex;
         justify-content: center;
         align-items: center;
