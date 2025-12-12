@@ -5,7 +5,6 @@
 body {
     margin: 0;
     padding: 0;
-    background-color: antiquewhite;
 }
 
 .data-lang {
@@ -42,8 +41,8 @@ body {
 /* Button container */
 .d-buttons {
     display: flex;
-    width: 26em;
-    flex-flow: row nowrap;
+    width: 78em;
+    flex-flow: wrap;
     justify-content: space-between;
     align-items: center;
 }
@@ -57,6 +56,9 @@ button {
     border-style: none;
     border-radius: 4px;
     cursor: pointer;
+    width: 50%;
+    line-height: 2em;
+    white-space: nowrap;
 }
 
 button:hover {
@@ -92,5 +94,53 @@ button:hover {
 
     .d-textarea li {
         margin-bottom: 1em; /* spacing between quotes */
+    }
+}
+
+@media only screen and (min-width: 768px) and (max-width: 1000px) {
+    body {
+        background-color: yellow;
+    }
+
+    .d-buttons, .d-textarea {
+        width: 46em;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .d-textarea li {
+        margin-bottom: 1.2em; /* spacing between quotes */
+    }
+}
+
+@media only screen and (min-width: 1000px) and  (max-width: 1150px) {
+    body {
+        background-color: blue;
+    }
+
+    .d-buttons, .d-textarea {
+        width: 60em;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .d-textarea li {
+        margin-bottom: 1.5em; /* spacing between quotes */
+    }
+}
+
+@media only screen and (min-width: 1150px) and (max-width: 1250px) {
+    body {
+        background-color: pink;
+    }
+
+    .d-buttons, .d-textarea {
+        width: 72em;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .d-textarea li {
+        margin-bottom: 2em; /* spacing between quotes */
     }
 }
