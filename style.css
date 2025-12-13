@@ -54,11 +54,11 @@ body {
     background-color: #4CAF50; /* soft green as default */
     color: white;
     font-weight: bold;
-    padding: 8px 20px;
+    padding: 20px 20px;
     border: none;
-    border-radius: 6px;
+    border-radius: 50%;
     cursor: pointer;
-    width: 45%;
+    width: 25%;
     margin: 5px 0;
     font-size: 0.95em;
     transition: all 0.2s ease-in-out;
@@ -102,6 +102,10 @@ body {
 
     .d-textarea li {
         margin-bottom: 1em; /* spacing between quotes */
+    }
+
+    .d-buttons button {
+        width: 48%;
     }
 }
 
@@ -147,8 +151,22 @@ body {
         justify-content: center;
         align-items: center;
     }
+    
+    .d-buttons button {
+        padding: 80px;
+        border-radius: 0%;
+        width: 20%;
+    }
 
     .d-textarea li {
         margin-bottom: 2em; /* spacing between quotes */
+    }
+}
+
+@media only screen and (min-width: 1250px) {
+    .d-buttons button {
+        padding: 60px;
+        border-radius: 0%;
+        width: 25%;
     }
 }
