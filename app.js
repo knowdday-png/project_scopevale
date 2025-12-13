@@ -23,19 +23,7 @@ function clearList() {
 // Add a quote to the list, optionally with a remove button
 function addQuoteToList(text, removable = false) {
     const li = document.createElement("li");
-
-    // List of special messages
-    const specialMessages = [
-        "Loading...",
-        "No quote to save!",
-        "✅ Quote saved!",
-        "✅ Quote already saved!",
-        "No saved quotes yet!",
-        "All saved quotes have been cleared!"
-    ];
-
-    // If it's a special message, just display plain text
-    if (specialMessages.includes(text)) {
+    if (arguments.length === 1) {
         li.textContent = text;
     } else {
         // Normal quote styling
