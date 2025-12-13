@@ -48,7 +48,7 @@ body {
 }
 
 /* Buttons */
-button {
+.d-buttons button {
     background-color: lightcoral;
     color: white;
     font-weight: bold;
