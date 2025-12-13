@@ -8,7 +8,6 @@ body {
 }
 
 .data-lang {
-    position: relative; /* anchor for floating button */
     height: 100vh;
     width: 100vw;
     display: flex;
@@ -31,33 +30,12 @@ body {
     font-weight: bold;
     padding: 2rem 3rem;
     list-style-type: none; /* remove bullets */
-    padding-bottom: 3rem; /* space so floating button doesn't overlap last quote */
 }
 
 /* Center each li text */
 .d-textarea li {
-    margin-bottom: 2.5em;
+    margin-bottom: 2.5em; /* spacing between quotes */
     text-align: center;
-}
-
-/* Floating toggle button */
-.toggle-remove-btn {
-    position: absolute;
-    bottom: 12px;
-    right: 12px;
-    padding: 2px 6px;
-    font-size: 0.65em;
-    background-color: inherit;
-    color: darkgray;
-    border: 1px solid darkgray;
-    border-radius: 3px;
-    cursor: pointer;
-    font-family: tahoma;
-    z-index: 10;
-}
-
-.toggle-remove-btn:hover {
-    opacity: 0.6;
 }
 
 /* Button container */
@@ -70,7 +48,7 @@ body {
 }
 
 /* Buttons */
-.d-buttons button {
+button {
     background-color: lightcoral;
     color: white;
     font-weight: bold;
@@ -103,7 +81,6 @@ button:hover {
     background-color: gray;
 }
 
-/* Media queries */
 @media only screen and (max-width: 768px) {
     body {
         background-color: lightblue;
@@ -116,7 +93,7 @@ button:hover {
     }
 
     .d-textarea li {
-        margin-bottom: 1em;
+        margin-bottom: 1em; /* spacing between quotes */
     }
 }
 
@@ -132,7 +109,7 @@ button:hover {
     }
 
     .d-textarea li {
-        margin-bottom: 1.2em;
+        margin-bottom: 1.2em; /* spacing between quotes */
     }
 }
 
@@ -148,7 +125,7 @@ button:hover {
     }
 
     .d-textarea li {
-        margin-bottom: 1.5em;
+        margin-bottom: 1.5em; /* spacing between quotes */
     }
 }
 
@@ -164,6 +141,6 @@ button:hover {
     }
 
     .d-textarea li {
-        margin-bottom: 2em;
+        margin-bottom: 2em; /* spacing between quotes */
     }
 }
