@@ -27,7 +27,7 @@ function addQuoteToList(text, removable = false) {
 
     if (removable) {
         const removeBtn = document.createElement("button");
-        removeBtn.textContent = "D";
+        removeBtn.textContent = "remove";
         removeBtn.style.fontSize = "0.8em";
         removeBtn.style.backgroundColor = "inherit";
         removeBtn.style.color = "darkgray";
