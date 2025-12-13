@@ -1,7 +1,7 @@
 const QUOTES_API = "https://api.api-ninjas.com/v2/randomquotes";
 const API_KEY = "oqs36QGq77pG0gWpe7kPEQ==xt2briaYzow8qNKu";
 
-const theQuote = document.getElementById('theQuote');
+const theQuote = document.getElementById("theQuote");
 let lastQuote = "";
 const localQuotes = [
     "Be yourself; everyone else is already taken. — Oscar Wilde",
@@ -20,44 +20,83 @@ function clearList() {
     theQuote.innerHTML = "";
 }
 
-function addQuoteToList(text) {
+// Add a quote to the list, optionally with a remove button
+function addQuoteToList(text, removable = false) {
     const li = document.createElement("li");
-    li.textContent = text;
+    li.style.display = "flex";          // make li a flex container
+    li.style.justifyContent = "space-between"; // space between quote and button
+    li.style.alignItems = "center";     // vertically center the items
+
+    const quoteSpan = document.createElement("span");
+    quoteSpan.textContent = text;
+    li.appendChild(quoteSpan);
+
+    if (removable) {
+        const removeBtn = document.createElement("button");
+        removeBtn.textContent = "Remove";
+
+        // Styling to make it look better
+        removeBtn.style.marginLeft = "1em";
+        removeBtn.style.fontSize = "0.75em";
+        removeBtn.style.padding = "2px 8px";
+        removeBtn.style.cursor = "pointer";
+        removeBtn.style.flexShrink = "0";
+        removeBtn.style.backgroundColor = "#f0f0f0"; // light gray background
+        removeBtn.style.color = "#333";             // dark text
+        removeBtn.style.border = "1px solid #ccc";  // subtle border
+        removeBtn.style.borderRadius = "4px";       // rounded corners
+        removeBtn.style.transition = "all 0.2s";    // smooth hover effect
+
+        // Hover effect
+        removeBtn.onmouseover = () => {
+            removeBtn.style.backgroundColor = "#e74c3c"; // red-ish
+            removeBtn.style.color = "#fff";
+            removeBtn.style.border = "1px solid #c0392b";
+        };
+        removeBtn.onmouseout = () => {
+            removeBtn.style.backgroundColor = "#f0f0f0";
+            removeBtn.style.color = "#333";
+            removeBtn.style.border = "1px solid #ccc";
+        };
+
+        removeBtn.onclick = () => {
+            li.remove();
+            let savedQuotes = JSON.parse(localStorage.getItem("quotes")) || [];
+            savedQuotes = savedQuotes.filter(q => q !== text);
+            localStorage.setItem("quotes", JSON.stringify(savedQuotes));
+        };
+
+        li.appendChild(removeBtn);
+    }
+
     theQuote.appendChild(li);
 }
 
+
+// Fetch quote from API or fallback
 async function fetchQuote() {
     clearList();
     addQuoteToList("Loading...");
 
     const TIMEOUT = 900;
+    const timeoutPromise = new Promise((_, reject) =>
+        setTimeout(() => reject(new Error("Timeout")), TIMEOUT)
+    );
 
-    // Timeout promise
-    const timeoutPromise = new Promise((_, reject) => {
-        setTimeout(() => reject(new Error("Request timed out")), TIMEOUT);
-    });
-
-    // API-Ninjas fetch promise
     const fetchPromise = fetch(QUOTES_API, {
         headers: { "X-Api-Key": API_KEY }
-    })
-    .then(res => {
+    }).then(res => {
         if (!res.ok) throw new Error("Network error");
         return res.json();
     });
 
-    // Race them
     Promise.race([fetchPromise, timeoutPromise])
         .then(data => {
-            const quote = data[0].quote;
-            const author = data[0].author;
-
-            lastQuote = `${quote} — ${author}`;
+            lastQuote = `${data[0].quote} — ${data[0].author}`;
             clearList();
             addQuoteToList(lastQuote);
         })
         .catch(() => {
-            // FALLBACK: pick from local quotes
             const randomIndex = Math.floor(Math.random() * localQuotes.length);
             lastQuote = localQuotes[randomIndex];
             clearList();
@@ -65,6 +104,7 @@ async function fetchQuote() {
         });
 }
 
+// Save the current quote
 function saveQuote() {
     let savedQuotes = JSON.parse(localStorage.getItem("quotes")) || [];
 
@@ -76,8 +116,8 @@ function saveQuote() {
 
     if (savedQuotes.includes(lastQuote)) {
         clearList();
-        addQuoteToList(lastQuote);                   // Quote on its own line
-        addQuoteToList("✅ Quote already saved!");    // Message on a separate line
+        addQuoteToList(lastQuote, true);
+        addQuoteToList("✅ Quote already saved!");
         return;
     }
 
@@ -85,14 +125,13 @@ function saveQuote() {
     localStorage.setItem("quotes", JSON.stringify(savedQuotes));
 
     clearList();
-    addQuoteToList(lastQuote);                       // Quote on its own line
-    addQuoteToList("✅ Quote saved!");               // Message on a separate line
+    addQuoteToList(lastQuote, true);
+    addQuoteToList("✅ Quote saved!");
 }
 
-
+// Show favorite quotes with remove buttons
 function showFavQuotes() {
     let savedQuotes = JSON.parse(localStorage.getItem("quotes")) || [];
-
     clearList();
 
     if (savedQuotes.length === 0) {
@@ -100,16 +139,17 @@ function showFavQuotes() {
         return;
     }
 
-    savedQuotes.reverse().forEach(q => addQuoteToList(q));
+    savedQuotes.reverse().forEach(q => addQuoteToList(q, true));
 }
 
+// Clear all saved quotes
 function clearStorage() {
     localStorage.removeItem("quotes");
     clearList();
     addQuoteToList("All saved quotes have been cleared!");
 }
 
-// Run showFavQuotes when the page finishes loading
-window.onload = function() {
+// Run showFavQuotes on page load
+window.onload = function () {
     showFavQuotes();
 };
