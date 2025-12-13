@@ -76,8 +76,6 @@ function addQuoteToList(text, removable = false) {
     theQuote.appendChild(li);
 }
 
-
-
 // Fetch quote from API or fallback
 async function fetchQuote() {
     clearList();
