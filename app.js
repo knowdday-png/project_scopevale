@@ -23,54 +23,71 @@ function clearList() {
 // Add a quote to the list, optionally with a remove button
 function addQuoteToList(text, removable = false) {
     const li = document.createElement("li");
-    li.style.display = "flex";          // make li a flex container
-    li.style.justifyContent = "space-between"; // space between quote and button
-    li.style.alignItems = "center";     // vertically center the items
 
-    const quoteSpan = document.createElement("span");
-    quoteSpan.textContent = text;
-    li.appendChild(quoteSpan);
+    // List of special messages
+    const specialMessages = [
+        "Loading...",
+        "No quote to save!",
+        "✅ Quote saved!",
+        "✅ Quote already saved!",
+        "No saved quotes yet!",
+        "All saved quotes have been cleared!"
+    ];
 
-    if (removable) {
-        const removeBtn = document.createElement("button");
-        removeBtn.textContent = "Remove";
+    // If it's a special message, just display plain text
+    if (specialMessages.includes(text)) {
+        li.textContent = text;
+    } else {
+        // Normal quote styling
+        li.style.display = "flex";
+        li.style.justifyContent = "space-between";
+        li.style.alignItems = "center";
 
-        // Styling to make it look better
-        removeBtn.style.marginLeft = "1em";
-        removeBtn.style.fontSize = "0.75em";
-        removeBtn.style.padding = "2px 8px";
-        removeBtn.style.cursor = "pointer";
-        removeBtn.style.flexShrink = "0";
-        removeBtn.style.backgroundColor = "#f0f0f0"; // light gray background
-        removeBtn.style.color = "#333";             // dark text
-        removeBtn.style.border = "1px solid #ccc";  // subtle border
-        removeBtn.style.borderRadius = "4px";       // rounded corners
-        removeBtn.style.transition = "all 0.2s";    // smooth hover effect
+        const quoteSpan = document.createElement("span");
+        quoteSpan.textContent = text;
+        li.appendChild(quoteSpan);
 
-        // Hover effect
-        removeBtn.onmouseover = () => {
-            removeBtn.style.backgroundColor = "#e74c3c"; // red-ish
-            removeBtn.style.color = "#fff";
-            removeBtn.style.border = "1px solid #c0392b";
-        };
-        removeBtn.onmouseout = () => {
+        if (removable) {
+            const removeBtn = document.createElement("button");
+            removeBtn.textContent = "Remove";
+
+            // Styling for the remove button
+            removeBtn.style.marginLeft = "1em";
+            removeBtn.style.fontSize = "0.75em";
+            removeBtn.style.padding = "2px 8px";
+            removeBtn.style.cursor = "pointer";
+            removeBtn.style.flexShrink = "0";
             removeBtn.style.backgroundColor = "#f0f0f0";
             removeBtn.style.color = "#333";
             removeBtn.style.border = "1px solid #ccc";
-        };
+            removeBtn.style.borderRadius = "4px";
+            removeBtn.style.transition = "all 0.2s";
 
-        removeBtn.onclick = () => {
-            li.remove();
-            let savedQuotes = JSON.parse(localStorage.getItem("quotes")) || [];
-            savedQuotes = savedQuotes.filter(q => q !== text);
-            localStorage.setItem("quotes", JSON.stringify(savedQuotes));
-        };
+            removeBtn.onmouseover = () => {
+                removeBtn.style.backgroundColor = "#e74c3c";
+                removeBtn.style.color = "#fff";
+                removeBtn.style.border = "1px solid #c0392b";
+            };
+            removeBtn.onmouseout = () => {
+                removeBtn.style.backgroundColor = "#f0f0f0";
+                removeBtn.style.color = "#333";
+                removeBtn.style.border = "1px solid #ccc";
+            };
 
-        li.appendChild(removeBtn);
+            removeBtn.onclick = () => {
+                li.remove();
+                let savedQuotes = JSON.parse(localStorage.getItem("quotes")) || [];
+                savedQuotes = savedQuotes.filter(q => q !== text);
+                localStorage.setItem("quotes", JSON.stringify(savedQuotes));
+            };
+
+            li.appendChild(removeBtn);
+        }
     }
 
     theQuote.appendChild(li);
 }
+
 
 
 // Fetch quote from API or fallback
@@ -116,7 +133,7 @@ function saveQuote() {
 
     if (savedQuotes.includes(lastQuote)) {
         clearList();
-        addQuoteToList(lastQuote, true);
+        addQuoteToList(lastQuote);
         addQuoteToList("✅ Quote already saved!");
         return;
     }
@@ -125,7 +142,7 @@ function saveQuote() {
     localStorage.setItem("quotes", JSON.stringify(savedQuotes));
 
     clearList();
-    addQuoteToList(lastQuote, true);
+    addQuoteToList(lastQuote);
     addQuoteToList("✅ Quote saved!");
 }
 
