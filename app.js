@@ -1,11 +1,8 @@
 const QUOTES_API = "https://api.api-ninjas.com/v2/randomquotes";
 const API_KEY = "oqs36QGq77pG0gWpe7kPEQ==xt2briaYzow8qNKu";
 
-const theQuote = document.getElementById("theQuote");
-
+const theQuote = document.getElementById('theQuote');
 let lastQuote = "";
-let showRemoveButtons = false;
-
 const localQuotes = [
     "Be yourself; everyone else is already taken. — Oscar Wilde",
     "Life is what happens when you're busy making other plans. — John Lennon",
@@ -19,83 +16,48 @@ const localQuotes = [
     "It does not matter how slowly you go as long as you do not stop. — Confucius"
 ];
 
-// Clear quotes but keep floating toggle button
 function clearList() {
-    const toggleBtn = document.querySelector(".toggle-remove-btn");
     theQuote.innerHTML = "";
-    if (toggleBtn) theQuote.appendChild(toggleBtn);
 }
 
-// Add quote (optionally removable)
-function addQuoteToList(text, removable = false) {
+function addQuoteToList(text) {
     const li = document.createElement("li");
     li.textContent = text;
-
-    if (removable) {
-        const removeBtn = document.createElement("button");
-        removeBtn.textContent = "remove";
-        removeBtn.className = "remove-btn";
-        removeBtn.style.fontSize = "0.8em";
-        removeBtn.style.backgroundColor = "inherit";
-        removeBtn.style.color = "darkgray";
-        removeBtn.style.border = "none";
-        removeBtn.style.cursor = "pointer";
-        removeBtn.style.fontFamily = "tahoma";
-        removeBtn.style.display = showRemoveButtons ? "block" : "none";
-        removeBtn.style.margin = "0.5em auto 0";
-
-        removeBtn.onclick = () => {
-            li.remove();
-            let savedQuotes = JSON.parse(localStorage.getItem("quotes")) || [];
-            savedQuotes = savedQuotes.filter(q => q !== text);
-            localStorage.setItem("quotes", JSON.stringify(savedQuotes));
-        };
-
-        li.appendChild(removeBtn);
-    }
-
     theQuote.appendChild(li);
 }
 
-// Toggle remove buttons visibility
-function toggleRemoveButtons() {
-    showRemoveButtons = !showRemoveButtons;
-
-    document.querySelectorAll(".remove-btn").forEach(btn => {
-        btn.style.display = showRemoveButtons ? "block" : "none";
-    });
-
-    const toggleBtn = document.querySelector(".toggle-remove-btn");
-    toggleBtn.textContent = showRemoveButtons
-        ? "Hide Remove Buttons"
-        : "Show Remove Buttons";
-}
-
-// Fetch quote from API or fallback
 async function fetchQuote() {
     clearList();
     addQuoteToList("Loading...");
 
     const TIMEOUT = 900;
 
-    const timeoutPromise = new Promise((_, reject) =>
-        setTimeout(() => reject(new Error("Timeout")), TIMEOUT)
-    );
+    // Timeout promise
+    const timeoutPromise = new Promise((_, reject) => {
+        setTimeout(() => reject(new Error("Request timed out")), TIMEOUT);
+    });
 
+    // API-Ninjas fetch promise
     const fetchPromise = fetch(QUOTES_API, {
         headers: { "X-Api-Key": API_KEY }
-    }).then(res => {
+    })
+    .then(res => {
         if (!res.ok) throw new Error("Network error");
         return res.json();
     });
 
+    // Race them
     Promise.race([fetchPromise, timeoutPromise])
         .then(data => {
-            lastQuote = `${data[0].quote} — ${data[0].author}`;
+            const quote = data[0].quote;
+            const author = data[0].author;
+
+            lastQuote = `${quote} — ${author}`;
             clearList();
             addQuoteToList(lastQuote);
         })
         .catch(() => {
+            // FALLBACK: pick from local quotes
             const randomIndex = Math.floor(Math.random() * localQuotes.length);
             lastQuote = localQuotes[randomIndex];
             clearList();
@@ -103,7 +65,6 @@ async function fetchQuote() {
         });
 }
 
-// Save current quote
 function saveQuote() {
     let savedQuotes = JSON.parse(localStorage.getItem("quotes")) || [];
 
@@ -115,8 +76,8 @@ function saveQuote() {
 
     if (savedQuotes.includes(lastQuote)) {
         clearList();
-        addQuoteToList(lastQuote);
-        addQuoteToList("✅ Quote already saved!");
+        addQuoteToList(lastQuote);                   // Quote on its own line
+        addQuoteToList("✅ Quote already saved!");    // Message on a separate line
         return;
     }
 
@@ -124,13 +85,14 @@ function saveQuote() {
     localStorage.setItem("quotes", JSON.stringify(savedQuotes));
 
     clearList();
-    addQuoteToList(lastQuote);
-    addQuoteToList("✅ Quote saved!");
+    addQuoteToList(lastQuote);                       // Quote on its own line
+    addQuoteToList("✅ Quote saved!");               // Message on a separate line
 }
 
-// Show favorite quotes (with remove buttons)
+
 function showFavQuotes() {
     let savedQuotes = JSON.parse(localStorage.getItem("quotes")) || [];
+
     clearList();
 
     if (savedQuotes.length === 0) {
@@ -138,17 +100,16 @@ function showFavQuotes() {
         return;
     }
 
-    savedQuotes.reverse().forEach(q => addQuoteToList(q, true));
+    savedQuotes.reverse().forEach(q => addQuoteToList(q));
 }
 
-// Clear all saved quotes
 function clearStorage() {
     localStorage.removeItem("quotes");
     clearList();
     addQuoteToList("All saved quotes have been cleared!");
 }
 
-// Run showFavQuotes on page load
-window.onload = function () {
+// Run showFavQuotes when the page finishes loading
+window.onload = function() {
     showFavQuotes();
 };
