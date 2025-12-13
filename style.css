@@ -45,41 +45,49 @@ body {
     flex-flow: wrap;
     justify-content: space-between;
     align-items: center;
-}
-
-/* Buttons */
-button {
-    background-color: lightcoral;
-    color: white;
-    font-weight: bold;
-    padding: 5px 30px;
-    border-style: none;
-    border-radius: 4px;
-    cursor: pointer;
-    width: 50%;
-    line-height: 2em;
     white-space: nowrap;
 }
 
-button:hover {
-    opacity: 0.6;
+/* Buttons */
+/* Main action buttons */
+.d-buttons button {
+    background-color: #4CAF50; /* soft green as default */
+    color: white;
+    font-weight: bold;
+    padding: 8px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    width: 45%;
+    margin: 5px 0;
+    font-size: 0.95em;
+    transition: all 0.2s ease-in-out;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.15);
 }
 
-.d-buttons :last-child {
-    background-color: red;
+.d-buttons button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+    opacity: 0.9;
 }
 
-.d-buttons :nth-child(2) {
-    background-color: midnightblue;
+/* Individual button colors */
+.d-buttons :first-child { /* Get Quote */
+    background-color: #607D8B; /* blue-gray */
 }
 
-.d-buttons :nth-child(3) {
-    background-color: lightseagreen;
+.d-buttons :nth-child(2) { /* Favorite Quotes */
+    background-color: #3F51B5; /* indigo */
 }
 
-.d-buttons :first-child {
-    background-color: gray;
+.d-buttons :nth-child(3) { /* Save Quote */
+    background-color: #009688; /* teal */
 }
+
+.d-buttons :last-child { /* Delete Quotes */
+    background-color: #F44336; /* red */
+}
+
 
 @media only screen and (max-width: 768px) {
     body {
