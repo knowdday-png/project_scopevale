@@ -20,24 +20,47 @@ function clearList() {
     theQuote.innerHTML = "";
 }
 
-function addQuoteToList(text) {
+// Add a quote with optional remove button
+function addQuoteToList(text, removable = false) {
     const li = document.createElement("li");
     li.textContent = text;
+
+    if (removable) {
+        const removeBtn = document.createElement("button");
+        removeBtn.textContent = "D";
+        removeBtn.style.fontSize = "0.8em";
+        removeBtn.style.backgroundColor = "inherit";
+        removeBtn.style.color = "darkgray";
+        removeBtn.style.border = "none";
+        removeBtn.style.cursor = "pointer";
+        removeBtn.style.fontFamily = "tahoma";
+        removeBtn.style.display = "block";
+        removeBtn.style.margin = "0 auto";
+
+        removeBtn.onclick = () => {
+            li.remove(); // remove from DOM
+            let savedQuotes = JSON.parse(localStorage.getItem("quotes")) || [];
+            savedQuotes = savedQuotes.filter(q => q !== text);
+            localStorage.setItem("quotes", JSON.stringify(savedQuotes));
+        };
+
+        li.appendChild(removeBtn);
+    }
+
     theQuote.appendChild(li);
 }
 
+// Fetch quote from API or fallback
 async function fetchQuote() {
     clearList();
     addQuoteToList("Loading...");
 
     const TIMEOUT = 900;
 
-    // Timeout promise
     const timeoutPromise = new Promise((_, reject) => {
         setTimeout(() => reject(new Error("Request timed out")), TIMEOUT);
     });
 
-    // API-Ninjas fetch promise
     const fetchPromise = fetch(QUOTES_API, {
         headers: { "X-Api-Key": API_KEY }
     })
@@ -46,7 +69,6 @@ async function fetchQuote() {
         return res.json();
     });
 
-    // Race them
     Promise.race([fetchPromise, timeoutPromise])
         .then(data => {
             const quote = data[0].quote;
@@ -57,7 +79,6 @@ async function fetchQuote() {
             addQuoteToList(lastQuote);
         })
         .catch(() => {
-            // FALLBACK: pick from local quotes
             const randomIndex = Math.floor(Math.random() * localQuotes.length);
             lastQuote = localQuotes[randomIndex];
             clearList();
@@ -65,6 +86,7 @@ async function fetchQuote() {
         });
 }
 
+// Save current quote
 function saveQuote() {
     let savedQuotes = JSON.parse(localStorage.getItem("quotes")) || [];
 
@@ -76,8 +98,8 @@ function saveQuote() {
 
     if (savedQuotes.includes(lastQuote)) {
         clearList();
-        addQuoteToList(lastQuote);                   // Quote on its own line
-        addQuoteToList("✅ Quote already saved!");    // Message on a separate line
+        addQuoteToList(lastQuote);
+        addQuoteToList("✅ Quote already saved!");
         return;
     }
 
@@ -85,14 +107,13 @@ function saveQuote() {
     localStorage.setItem("quotes", JSON.stringify(savedQuotes));
 
     clearList();
-    addQuoteToList(lastQuote);                       // Quote on its own line
-    addQuoteToList("✅ Quote saved!");               // Message on a separate line
+    addQuoteToList(lastQuote);
+    addQuoteToList("✅ Quote saved!");
 }
 
-
+// Show favorite quotes with remove buttons
 function showFavQuotes() {
     let savedQuotes = JSON.parse(localStorage.getItem("quotes")) || [];
-
     clearList();
 
     if (savedQuotes.length === 0) {
@@ -100,16 +121,17 @@ function showFavQuotes() {
         return;
     }
 
-    savedQuotes.reverse().forEach(q => addQuoteToList(q));
+    savedQuotes.reverse().forEach(q => addQuoteToList(q, true)); // true = removable
 }
 
+// Clear all saved quotes
 function clearStorage() {
     localStorage.removeItem("quotes");
     clearList();
     addQuoteToList("All saved quotes have been cleared!");
 }
 
-// Run showFavQuotes when the page finishes loading
+// Run showFavQuotes on page load
 window.onload = function() {
     showFavQuotes();
 };
