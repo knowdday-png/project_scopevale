@@ -17,10 +17,9 @@ body {
     row-gap: 30px;
 }
 
-/* Style the ul like your old div */
 .d-textarea {
     width: 78em;
-    height: 39em;
+    height: 36em;
     border: 0.24em solid grey;
     border-radius: 8px;
     color: wheat;
@@ -29,26 +28,23 @@ body {
     font-family: verdana;
     font-weight: bold;
     padding: 2rem 3rem;
-    list-style-type: none; /* remove bullets */
+    list-style-type: none;
 }
 
-/* Center each li text */
 .d-textarea li {
-    margin-bottom: 2.5em; /* spacing between quotes */
+    margin-bottom: 2.5em;
     text-align: center;
 }
 
-/* Button container */
 .d-buttons {
     display: flex;
-    width: 78em;
+    height: 18em;
     flex-flow: nowrap;
     justify-content: center;
     align-items: center;
-    column-gap: 6em;
+    column-gap: 2.5em;
+    position: relative;
 }
-
-/* Buttons */
 
 .d-buttons button span {
     display:inline-block;
@@ -72,21 +68,29 @@ button:hover {
     opacity: 0.6;
 }
 
-.d-buttons button:last-child {
-    background-color: red;
+.d-buttons button:first-child {
+    background-color: gray;
+    translate: -5% 0%;
 }
 
 .d-buttons button:nth-child(2) {
     background-color: midnightblue;
+    position: absolute;
+    translate: 0% -75%;
 }
 
 .d-buttons button:nth-child(3) {
     background-color: lightseagreen;
+    translate: 5% 0%;
 }
 
-.d-buttons button:first-child {
-    background-color: gray;
+.d-buttons button:last-child {
+    background-color: red;
+    position: absolute;
+    translate: 0% 75%;
 }
+
+
 
 @media only screen and (max-width: 768px) {
     body {
@@ -94,17 +98,18 @@ button:hover {
     }
 
     .d-buttons {
-        column-gap: 1.4em;
+        column-gap: 1.2em;
+        height: 6em;
     }
 
-    .d-buttons, .d-textarea {
+    .d-textarea {
         width: 20em;
         justify-content: center;
         align-items: center;
     }
 
     .d-textarea li {
-        margin-bottom: 1em; /* spacing between quotes */
+        margin-bottom: 1em;
     }
 
     .d-buttons button {
@@ -120,62 +125,35 @@ button:hover {
     }
 }
 
-@media only screen and (min-width: 768px) and (max-width: 1000px) {
+@media only screen and (min-width: 768px) and (max-width: 1250px) {
     body {
-        background-color: yellow;
+        background-color: blue;
     }
 
     .d-buttons {
-        column-gap: 3em;
+        column-gap: 2.0em;
+        height: 12em;
     }
 
-    .d-buttons, .d-textarea {
+    .d-textarea {
         width: 46em;
         justify-content: center;
         align-items: center;
     }
 
     .d-textarea li {
-        margin-bottom: 1.2em; /* spacing between quotes */
-    }
-}
-
-@media only screen and (min-width: 1000px) and  (max-width: 1150px) {
-    body {
-        background-color: blue;
+        margin-bottom: 1.5em;
     }
 
-    .d-buttons {
-        column-gap: 4.4em;
+    .d-buttons button {
+        width: 6em;
+        height: 6em;
     }
 
-    .d-buttons, .d-textarea {
-        width: 60em;
+    .d-buttons button span {
+        scale: 0.9;
+        display: flex;
         justify-content: center;
         align-items: center;
-    }
-
-    .d-textarea li {
-        margin-bottom: 1.5em; /* spacing between quotes */
-    }
-}
-
-@media only screen and (min-width: 1150px) and (max-width: 1250px) {
-    body {
-        background-color: pink;
-    }
-
-    .d-buttons {
-        column-gap: 5.4em;
-    }
-
-    .d-buttons, .d-textarea {
-        width: 72em;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .d-textarea li {
-        margin-bottom: 2em; /* spacing between quotes */
     }
 }
